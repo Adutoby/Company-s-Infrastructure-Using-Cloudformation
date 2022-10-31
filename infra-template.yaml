@@ -1,8 +1,9 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description:
-  This template deploys a custom VPC, with a pair of public and private subnets in
-  an Availability Zones. It deploys an internet gateway, with a default
-  route on the public subnets.
+  This template deploys a custom VPC, with a public and private subnet in
+  an Availability Zones. It deploys an internet gateway, with 2
+  route tables one each for the public and private subnets. It also deploys
+  an ingress Security Group to allow SSH on port 22 and HTTP on post 80.
 
 Resources:
   VPC:
@@ -12,7 +13,7 @@ Resources:
       EnableDnsHostnames: true
       Tags:
         - Key: Name
-          Value: techchakVPC
+          Value: TechChakVPC
 
   InternetGateway:
     Type: AWS::EC2::InternetGateway
@@ -37,7 +38,7 @@ Resources:
         - !GetAZs ""
       Tags:
         - Key: Name
-          Value: Public Subnet 1
+          Value: TechChak Public Subnet
 
   PrivateSubnet1:
     Type: AWS::EC2::Subnet
@@ -49,7 +50,7 @@ Resources:
         - !GetAZs ""
       Tags:
         - Key: Name
-          Value: Private Subnet 1
+          Value: TechChak Private Subnet
 
   PublicRouteTable:
     Type: AWS::EC2::RouteTable
@@ -57,7 +58,7 @@ Resources:
       VpcId: !Ref VPC
       Tags:
         - Key: Name
-          Value: Public Route Table
+          Value: TechChak Public RTB
 
   PublicRoute:
     Type: AWS::EC2::Route
@@ -78,7 +79,7 @@ Resources:
       VpcId: !Ref VPC
       Tags:
         - Key: Name
-          Value: Private Route Table
+          Value: TechChak Private RTB
 
   PrivateSubnetRouteTableAssociation1:
     Type: AWS::EC2::SubnetRouteTableAssociation
